@@ -12,26 +12,37 @@ var myRequest = new Request(url,myInit);
 
 /*Récupération données ( requêtes HTTP)*/
 fetch(url,myInit).then(function(res) 
-{
-    if (res.ok) 
     {
-        return res.json();
+        if (res.ok) 
+        {
+            return res.json();
+        }
     }
-}
-).then(function(products) 
-{
-    createProducts(products);
-}
-).catch(function(err) 
-{
-    console.log('Une erreur est survenue : ' + err);
-}
-);
+    ).then(function(products) 
+    {
+        createProducts(products);
+    }
+    ).catch(function(err) 
+    {
+        console.log('Une erreur est survenue : ' + err);
+    }
+    );
 
-
-// fonctions
+// fonction affichage canapés
 function createProducts(products){
+
     for(let product of products) {
-        console.log(product.altTxt);
+      console.log(product);
+      document.getElementById(
+        "items"
+      ).innerHTML += `<a href="./product.html?id=${product._id}">
+              <article>
+               <img
+                     src="${product.imageUrl}"
+                     alt="${product.altTxt}"/>
+                 <h3 class="productName"> ${product.name}</h3>
+                 <p class="productDescription"> ${product.description}</p>
+             </article>
+         </a>`;
     }
 }
