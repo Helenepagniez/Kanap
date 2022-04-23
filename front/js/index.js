@@ -42,7 +42,8 @@ function createProducts(products)
             <article>
                <img
                     src="${product.imageUrl}"
-                    alt="${product.altTxt}"/>
+                    alt="${product.altTxt}"
+                />
                 <h3 class="productName"> ${product.name}</h3>
                 <p class="productDescription"> ${product.description}</p>
              </article>
