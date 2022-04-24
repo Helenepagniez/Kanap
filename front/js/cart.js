@@ -7,6 +7,8 @@ callCart();
 callTotals();
 modifyQuantity();
 deleteProduct();
+callForm();
+postForm();
 
 function callCart()
 {
@@ -186,3 +188,192 @@ function deleteProduct()
     )
   }
 } 
+
+//Formulaire Regex
+function callForm() 
+{
+  // Ajout Regex
+  let form = document.querySelector(".cart__order__form");
+
+  //Expressions régulières
+  let emailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$');
+  let charRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
+  let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
+
+  //Modification du prénom
+  form.firstName.addEventListener('change', function() 
+    {
+      validFirstName(this);
+    }
+  );
+
+  //Modification du nom
+  form.lastName.addEventListener('change', function() 
+    {
+      validLastName(this);
+    }
+  );
+
+  //Modification de l'adresse
+  form.address.addEventListener('change', function() 
+    {
+      validAddress(this);
+    }
+  );
+
+  //Modification de la ville
+  form.city.addEventListener('change', function() 
+    {
+        validCity(this);
+    }
+  );
+
+  //Modification de l'Email
+  form.email.addEventListener('change', function() 
+    {
+        validEmail(this);
+    }
+  );
+
+  //validation du prénom
+  const validFirstName = function(inputFirstName) 
+  {
+    let firstNameErrorMsg = inputFirstName.nextElementSibling;
+
+    if (charRegExp.test(inputFirstName.value)) 
+    {
+      firstNameErrorMsg.innerHTML = '';
+    }
+    else 
+    {
+      firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+    }
+  };
+
+  //validation du nom
+  const validLastName = function(inputLastName) 
+  {
+    let lastNameErrorMsg = inputLastName.nextElementSibling;
+
+    if (charRegExp.test(inputLastName.value)) 
+    {
+      lastNameErrorMsg.innerHTML = '';
+    }
+    else
+    {
+      lastNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+    }
+  };
+
+  //validation de l'adresse
+  const validAddress = function(inputAddress) 
+  {
+    let addressErrorMsg = inputAddress.nextElementSibling;
+
+    if (addressRegExp.test(inputAddress.value)) 
+    {
+      addressErrorMsg.innerHTML = '';
+    }
+    else
+    {
+      addressErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+    }
+  };
+
+  //validation de la ville
+  const validCity = function(inputCity) 
+  {
+    let cityErrorMsg = inputCity.nextElementSibling;
+
+    if (charRegExp.test(inputCity.value)) 
+    {
+      cityErrorMsg.innerHTML = '';
+    }
+    else
+    {
+      cityErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+    }
+  };
+
+  //validation de l'Email
+  const validEmail = function(inputEmail) 
+  {
+    let emailErrorMsg = inputEmail.nextElementSibling;
+
+    if (emailRegExp.test(inputEmail.value)) 
+    {
+      emailErrorMsg.innerHTML = '';
+    }
+    else
+    {
+      emailErrorMsg.innerHTML = 'Veuillez renseigner votre email.';
+    }
+  };
+}
+
+//Envoi infos utilisateur au localstorage
+function postForm()
+{
+  const btn_commander = document.getElementById("order");
+
+  //Ecouter le panier
+  btn_commander.addEventListener("click", (event)=>
+  {
+    //Récupération coordonnées du formulaire utilisateur
+    let inputName = document.getElementById('firstName');
+    let inputLastName = document.getElementById('lastName');
+    let inputAdress = document.getElementById('address');
+    let inputCity = document.getElementById('city');
+    let inputMail = document.getElementById('email');
+
+    //Construction d'un array depuis le local storage
+    let idProducts = [];
+    for (let i = 0; i<productList.length;i++) 
+    {
+      idProducts.push(productList[i].id);
+    }
+    console.log(idProducts);
+
+    const order = 
+    {
+      contact : 
+        {
+          firstName: inputName.value,
+          lastName: inputLastName.value,
+          address: inputAdress.value,
+          city: inputCity.value,
+          email: inputMail.value,
+        },
+      products: idProducts,
+    } 
+
+    const options = 
+    {
+      method: 'POST',
+      body: JSON.stringify(order),
+      headers: 
+      {
+        'Accept': 'application/json', 
+        "Content-Type": "application/json" 
+      },
+    };
+
+    fetch("http://localhost:3000/api/products/order", options)
+    .then((response) => response.json())
+    .then((data) => 
+    {
+      console.log(data);
+      localStorage.clear();
+      localStorage.setItem("orderId", data.orderId);
+
+      window.location.href = "./confirmation.html";
+    }
+    )
+    .catch((err) => 
+      {
+        alert ("Problème avec fetch : " + err.message);
+      }
+    );
+  }
+)
+}
