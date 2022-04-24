@@ -10,6 +10,8 @@ deleteProduct();
 callForm();
 postForm();
 
+
+//Affichage panier
 function callCart()
 {
   // Lorsque panier est vide
@@ -106,7 +108,8 @@ function callCart()
     }
   }
 }
-      
+
+//Affiche total quantité et prix
 function callTotals()
 {
   // Récupération du total des quantités
