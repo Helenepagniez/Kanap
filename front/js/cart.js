@@ -24,6 +24,9 @@ function callCart()
   //Lorsque panier contient minimum 1 article
   else 
   {
+    //Pour apparaitre regroupée par modèle et couleurs
+    productList.sort((a,b) => a.productName.localeCompare(b.productName));
+
     for (let product in productList)
     {
       // Insertion de l'élément "article"
