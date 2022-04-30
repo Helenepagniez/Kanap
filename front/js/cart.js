@@ -232,8 +232,10 @@ function deleteProduct()
 //Formulaire Regex
 function callForm() 
 {
+  let invalidate = [true,true,true,true,true];
   // Ajout Regex
   let form = document.querySelector(".cart__order__form");
+  document.getElementById("order").disabled = true;
 
   //Expressions régulières
   let emailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$');
@@ -243,37 +245,54 @@ function callForm()
   //Modification du prénom
   form.firstName.addEventListener('change', function() 
     {
-      validFirstName(this);
+      invalidate[0] = validFirstName(this);
+      validation();
     }
   );
 
   //Modification du nom
   form.lastName.addEventListener('change', function() 
     {
-      validLastName(this);
+      invalidate[1] = validLastName(this);
+      validation();
     }
   );
 
   //Modification de l'adresse
   form.address.addEventListener('change', function() 
     {
-      validAddress(this);
+      invalidate[2] = validAddress(this);
+      validation();
     }
   );
 
   //Modification de la ville
   form.city.addEventListener('change', function() 
     {
-        validCity(this);
+      invalidate[3] = validCity(this);
+      validation();
     }
   );
 
   //Modification de l'Email
   form.email.addEventListener('change', function() 
     {
-        validEmail(this);
+      invalidate[4] = validEmail(this);
+      validation();
     }
   );
+
+  const validation = function() 
+  {
+    if(invalidate.includes(true) || !productList)
+    {
+      document.getElementById("order").disabled = true;
+    }
+    else
+    {
+      document.getElementById("order").disabled = false;
+    }
+  }
 
   //validation du prénom
   const validFirstName = function(inputFirstName) 
@@ -283,25 +302,29 @@ function callForm()
     if (charRegExp.test(inputFirstName.value)) 
     {
       firstNameErrorMsg.innerHTML = '';
+      return false;
     }
     else 
     {
       firstNameErrorMsg.innerHTML = 'Veuillez renseigner votre prénom.';
+      return true;
     }
   };
 
   //validation du nom
-  const validLastName = function(inputLastName) 
+  const validLastName = function(inputLastName)
   {
     let lastNameErrorMsg = inputLastName.nextElementSibling;
 
     if (charRegExp.test(inputLastName.value)) 
     {
       lastNameErrorMsg.innerHTML = '';
+      return false;
     }
     else
     {
       lastNameErrorMsg.innerHTML = 'Veuillez renseigner votre nom.';
+      return true;
     }
   };
 
@@ -313,10 +336,12 @@ function callForm()
     if (addressRegExp.test(inputAddress.value)) 
     {
       addressErrorMsg.innerHTML = '';
+      return false;
     }
     else
     {
       addressErrorMsg.innerHTML = 'Veuillez renseigner votre adresse.';
+      return true;
     }
   };
 
@@ -328,10 +353,12 @@ function callForm()
     if (charRegExp.test(inputCity.value)) 
     {
       cityErrorMsg.innerHTML = '';
+      return false;
     }
     else
     {
       cityErrorMsg.innerHTML = 'Veuillez renseigner votre ville.';
+      return true;
     }
   };
 
@@ -343,10 +370,12 @@ function callForm()
     if (emailRegExp.test(inputEmail.value)) 
     {
       emailErrorMsg.innerHTML = '';
+      return false;
     }
     else
     {
       emailErrorMsg.innerHTML = 'Veuillez renseigner votre email.';
+      return true;
     }
   };
 }
