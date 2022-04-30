@@ -84,7 +84,6 @@ function showProduct(product)
                 colorPicked: colorPicked,
                 quantity: quantity,
                 productName: product.name,
-                productPrice: product.price,
                 productDescription: product.description,
                 productImg: product.imageUrl,
                 productAltImg: product.altTxt
