@@ -23,6 +23,7 @@ function callCart()
   {
     //Pour apparaitre regroupée par modèle et couleurs
     productList.sort((a,b) => a.productName.localeCompare(b.productName));
+    let productIndex=0;
 
     for (let product in productList)
     {
@@ -134,7 +135,9 @@ function callCart()
 
           callTotals(data);
           modifyQuantity();
-          deleteProduct();
+          deleteProduct(productIndex);
+
+          productIndex++;
         }
       ).catch(function(err) 
         {
@@ -203,12 +206,10 @@ function modifyQuantity()
 }
 
 // Suppression d'un produit
-function deleteProduct() 
+function deleteProduct(s) 
 {
   let btn_supprimer = document.querySelectorAll(".deleteItem");
 
-  for (let s = 0; s < btn_supprimer.length; s++)
-  {
     btn_supprimer[s].addEventListener("click" , (event) => 
       {
         event.preventDefault();
@@ -226,7 +227,6 @@ function deleteProduct()
         location.reload();
       }
     )
-  }
 } 
 
 //Formulaire Regex
