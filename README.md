@@ -82,3 +82,10 @@ Frank
 ----------------------------------------------------
 
 Ça y est, vous avez toutes les informations pour démarrer votre projet. Bon courage !
+
+# Lancer l'application
+Afin d'afficher la page, suivez les étapes suivantes :
+1. Cliquez sur le bouton vert "Code"
+2. Cliquez sur "Download ZIP"
+3. Extraire du zip et ouvrir dossier sur votre éditeur de code
+4. Tapez dans terminal de commande les lignes suivantes: "cd back" puis "node server"
