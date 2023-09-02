@@ -42,6 +42,12 @@ HTML5 - CSS3 - Javascript
     git clone https://github.com/Helenepagniez/Kanap.git
   ```
 
+ ### Aller dans répertoire backend
+
+  ```bash
+      npm start
+  ```
+
   ### Installer les dépendances
 
   ```bash
